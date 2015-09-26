@@ -8,15 +8,12 @@ namespace Assets
 		private float forwardThrust;
 		private float turningThrust;
 
-		private new Rigidbody2D rigidbody;
 		private Vector3 goal;
 		public float turnSpeed = 10f;
 		public float drag = .99f;
-
-		public void Start()
-		{
-			rigidbody = GetComponent<Rigidbody2D>();
-		}
+		public float rotSpeed = 180f;
+		public Vector3 velocity;
+		public float acceleration = 10f;
 
 		public void Update()
 		{
@@ -25,19 +22,34 @@ namespace Assets
 
 		private void HandleKeys()
 		{
-			forwardThrust = Input.GetAxis("Vertical");
-			turningThrust = Input.GetAxis("Horizontal");
+			// ROTATE the ship.
 
-			goal = transform.position + new Vector3(turningThrust, forwardThrust);
-			Debug.DrawLine(transform.position, goal, Color.green);
+			// Grab our rotation quaternion
+			var rot = transform.rotation;
 
-			transform.Rotate(new Vector3(0, 0, 1), Time.deltaTime * -turningThrust * turnSpeed);
+			// Grab the Z euler angle
+			var z = rot.eulerAngles.z;
 
-			// Drag the player towards the goal
-			rigidbody.AddForce(transform.up * forwardThrust * (GameSettings.instance.movementSpeed * ((1f + Input.GetAxis("RightTrigger")) * GameSettings.instance.boostFactor)));
+			// Change the Z angle based on input
+			z -= Input.GetAxis("Horizontal") * rotSpeed * Time.deltaTime;
+
+			// Recreate the quaternion
+			rot = Quaternion.Euler(0, 0, z);
+
+			// Feed the quaternion into our rotation
+			transform.rotation = rot;
+
+			var pos = transform.position;
+
+			// Update the velocity
+			velocity += transform.up * Mathf.Max(Input.GetAxis("Vertical"), 0f) * acceleration * Time.deltaTime;
 
 			// Apply drag
-			rigidbody.AddForce(rigidbody.velocity * -drag);
+			velocity += -velocity.normalized * drag * velocity.magnitude;
+
+			// Update the position
+			pos += velocity * Time.deltaTime;
+			transform.position = pos;
 		}
 	}
 }
