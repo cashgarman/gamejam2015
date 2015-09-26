@@ -4,10 +4,8 @@ public class GameSettings : MonoBehaviour
 {
 	public static GameSettings instance;
 
-	public GameObject exitPrefab;
-	public float movementSpeed = 10f;
-	public GameObject player;
-	public float boostFactor = 5f;
+	public GameObject wormholePrefab;
+	public GameObject playerShipPrefab;
 
 	public void Awake()
 	{

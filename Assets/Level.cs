@@ -10,12 +10,11 @@ public class Level : MonoBehaviour
 		// Spawn portals to exit the level
 		for (var i = 0; i < numExits; ++i)
 		{
-			var exitDirection = Random.onUnitSphere;
-			exitDirection.z = 0;
-			exitDirection.Normalize();
+			var exitDirection = Random.insideUnitCircle;
+//			exitDirection.Normalize();
 
-			var exitObject = Instantiate(GameSettings.instance.exitPrefab, exitDirection * exitDistance, Quaternion.identity) as GameObject;
-			Debug.Log("Spawning an exit at " + exitObject.transform.position, exitObject);
+			var exitObject = Instantiate(GameSettings.instance.wormholePrefab, exitDirection * exitDistance, Quaternion.identity) as GameObject;
+//			Debug.Log("Spawning an exit at " + exitObject.transform.position, exitObject);
 		}
 	}
 }
