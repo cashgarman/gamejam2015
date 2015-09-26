@@ -7,6 +7,7 @@ public class GameSettings : MonoBehaviour
 	public GameObject exitPrefab;
 	public float movementSpeed = 10f;
 	public GameObject player;
+	public float boostFactor = 5f;
 
 	public void Awake()
 	{

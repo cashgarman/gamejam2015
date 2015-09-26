@@ -10,6 +10,8 @@ namespace Assets
 
 		private new Rigidbody2D rigidbody;
 		private Vector3 goal;
+		public float turnSpeed = 10f;
+		public float drag = .99f;
 
 		public void Start()
 		{
@@ -29,8 +31,13 @@ namespace Assets
 			goal = transform.position + new Vector3(turningThrust, forwardThrust);
 			Debug.DrawLine(transform.position, goal, Color.green);
 
-			// Turn towards the goal
-			rigidbody.AddForce(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * GameSettings.instance.movementSpeed);
+			transform.Rotate(new Vector3(0, 0, 1), Time.deltaTime * -turningThrust * turnSpeed);
+
+			// Drag the player towards the goal
+			rigidbody.AddForce(transform.up * forwardThrust * (GameSettings.instance.movementSpeed * ((1f + Input.GetAxis("RightTrigger")) * GameSettings.instance.boostFactor)));
+
+			// Apply drag
+			rigidbody.AddForce(rigidbody.velocity * -drag);
 		}
 	}
 }
