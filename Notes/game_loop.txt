@@ -1,0 +1,44 @@
+On game start:
+	Determine initial level
+	Load initial level
+	Update game rules to match initial level
+	Drop loading screen
+	Unlock player controls
+	Game Loop:
+		When player colliders with exit wormhole:
+			Determine next level
+			Load next level
+			Update game rules to match next level
+			Drop loading screen
+
+Things:
+ - Time
+ - Fuel
+ - Speed
+ - Enemies
+ - Wormholes
+ 	- 
+ - Levels
+ - Projectiles
+ - Movement Physics
+ - Pickups
+ 	- Fuel
+ 	- Full Health
+ 	- Partial Health
+ - Player
+ - Map
+ - Ability
+ 	- Random Location in Level
+ 	- Random Level in Ring
+ 	- Full health
+ 	- Destroy all Enemies
+
+
+
+ TODO:
+ =====
+  - Create level class with contents (eventually randomly placed)
+  - Center the camera on the ship
+  - Use the gamepad to control the ship
+  - Spawn randomly placed portals around the edge of the level
+  - When the ship collides with a portal, move to the next level
