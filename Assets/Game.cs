@@ -18,6 +18,7 @@ namespace Assets
 		public Text player2SpeedText;
 		public int numWormholePairs = 10;
 		public int numAsteroids = 30;
+		private bool slowmo;
 
 		public void Awake()
 		{
@@ -60,6 +61,12 @@ namespace Assets
 
 			if (Input.GetButtonDown("Player2Fire"))
 				player2Ship.Fire();
+
+			if (Input.GetKeyDown(KeyCode.Space))
+			{
+				slowmo = !slowmo;
+				Time.timeScale = slowmo ? GameSettings.instance.slowmoSpeed : 1f;
+			}
 		}
 
 		public void SpawnPlayer(int playerNumber)

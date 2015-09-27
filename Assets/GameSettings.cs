@@ -8,6 +8,7 @@ public class GameSettings : MonoBehaviour
 	public GameObject player1ShipPrefab;
 	public GameObject player2ShipPrefab;
 	public GameObject asteroidPrefab;
+	public GameObject explosionPrefab;
 
 	public float boostEngineParticleSize = 1.5f;
 	public float normalEngineParticleSize = 0.64f;
@@ -25,6 +26,10 @@ public class GameSettings : MonoBehaviour
 	public float maxAsteroidImpactDamage = 50f;
 	public float maxShipSpeed = 50f;
 	public float minImpactDamageSpeed = 10f;
+	public float asteroidExplosionSize = 100f;
+	public float explosionDuration = 1f;
+	public float slowmoSpeed = 0.1f;
+	public float shipExplosionSize = 10f;
 
 	public void Awake()
 	{

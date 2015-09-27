@@ -21,5 +21,15 @@ namespace Assets
 		{
 			return RandomElement(list.ToArray());
 		}
+
+		public static bool Chance(float chance)
+		{
+			return Random.value <= chance;
+		}
+
+		public static Quaternion RandomRotation()
+		{
+			return Quaternion.Euler(0, 0, Random.value * 360f);
+		}
 	}
 }

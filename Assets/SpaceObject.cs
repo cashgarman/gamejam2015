@@ -88,5 +88,15 @@ namespace Assets
 		public virtual void OnDestroyed()
 		{
 		}
+
+		protected void SpawnExplosion(float scale, float duration)
+		{
+			// Create the explosion
+			var explosionObject = Instantiate(GameSettings.instance.explosionPrefab, transform.position, Util.RandomRotation()) as GameObject;
+			explosionObject.GetComponent<ParticleSystem>().startSize = scale;
+
+			// Destroy the explosion after the duration
+			Destroy(explosionObject, duration);
+		}
 	}
 }

@@ -81,7 +81,10 @@ namespace Assets
 
 		public override void OnDestroyed()
 		{
-			// TODO: Spawn an explosion
+			base.OnDestroyed();
+
+			// Spawn an explosion
+			SpawnExplosion(GameSettings.instance.shipExplosionSize, GameSettings.instance.explosionDuration);
 
 			// Disable the player controls
 			controls.disabled = true;

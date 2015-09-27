@@ -24,6 +24,9 @@ namespace Assets
 		{
 			base.OnDestroyed();
 
+			// Spawn an explosion
+			SpawnExplosion(scale * GameSettings.instance.asteroidExplosionSize, GameSettings.instance.explosionDuration);
+
 			// Spawn some pieces based on how big the asteroid was
 			SpawnDebris();
 
@@ -40,14 +43,14 @@ namespace Assets
 				return;
 
 			for (var i = 0; i < numDebrisChunks; ++i)
-				Spawn(scale / numDebrisChunks, transform.position + Random.value * transform.localScale * 3f,
+				Spawn(scale / numDebrisChunks, transform.position + Random.value * transform.localScale,
 					Random.insideUnitCircle * GameSettings.instance.maxAsteroidDebrisVelocity);
 		}
 
 		public static void Spawn(float scale, Vector3 position, Vector3 velocity)
 		{
 			// Spawn the asteroid
-			var asteroidObject = Instantiate(GameSettings.instance.asteroidPrefab, position, Quaternion.Euler(0, 0, Random.value * 360f)) as GameObject;
+			var asteroidObject = Instantiate(GameSettings.instance.asteroidPrefab, position, Util.RandomRotation()) as GameObject;
 			var asteroid = asteroidObject.GetComponent<Asteroid>();
 
 			// Give the asteroid a random scale
@@ -59,6 +62,10 @@ namespace Assets
 
 			// Give the asteroid a random velocity
 			rigidBody.velocity = velocity;
+
+			// Sometimes spawn a random pickup where the asteroid was
+//			if(Util.Chance(GameSettings.instance.chanceOfPickupOnAsteroidDestroy))
+
 		}
 
 		public float GetImpactDamage(SpaceObject target)
