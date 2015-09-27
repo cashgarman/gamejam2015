@@ -29,6 +29,19 @@ namespace Assets
 			health = startingHealth;
 
 			UpdateFuelDisplay();
+
+			if (playerNumber == 1)
+			{
+				Game.instance.player1Ship = this;
+				Game.instance.followCamera.player1 = transform;
+				healthText = Game.instance.player1HealthText;
+			}
+			else
+			{
+				Game.instance.player2Ship = this;
+				Game.instance.followCamera.player2 = transform;
+				healthText = Game.instance.player2HealthText;
+			}
 		}
 
 		public void Fire()
@@ -79,7 +92,7 @@ namespace Assets
 			if (projectile != null)
 			{
 				// If the projectile should apply damage
-				if (projectile.doesDamage && (this != projectile.owner || projectile.friendlyFire))
+				if (projectile.doesDamage && (this != projectile.owner || projectile.friendlyFire) && projectile.CanHit(this))
 				{
 					// Damage the ship
 					var damage = projectile.GetDamage(this);
@@ -89,6 +102,9 @@ namespace Assets
 					// Check if we were destroyed
 					if (health <= 0f)
 						OnDestroyed();
+
+					// Let the projectile know it hit something
+					projectile.OnHit(this);
 				}
 			}
 
@@ -106,7 +122,7 @@ namespace Assets
 			Destroy(gameObject);
 
 			// Respawn the ship
-			Game.instance.RespawnPlayer(playerNumber);
+			Game.instance.SpawnPlayer(playerNumber);
 		}
 	}
 }

@@ -1,5 +1,4 @@
-﻿using System.Net.Cache;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets
 {
@@ -12,6 +11,9 @@ namespace Assets
 		public float damage = 10f;
 		private float age;
 		public float friendlyFireImmunityTime = 0.25f;
+		public bool destroyOnHit = true;
+		public new ParticleSystem particleSystem;
+		public float particleSystemLife = 5f;
 
 		public void Start()
 		{
@@ -28,10 +30,31 @@ namespace Assets
 
 		public float GetDamage(Ship target)
 		{
-			if (age < friendlyFireImmunityTime)
+			if (target == owner && age < friendlyFireImmunityTime)
 				return 0;
 
 			return damage;
+		}
+
+		public void OnHit(Ship target)
+		{
+			if (destroyOnHit)
+				OnDestroy();
+				Destroy(gameObject);
+		}
+
+		private void OnDestroy()
+		{
+			particleSystem.Stop();
+			particleSystem.transform.parent = null;
+			Destroy(particleSystem.gameObject, particleSystemLife);
+		}
+
+		public bool CanHit(Ship target)
+		{
+			if (target == owner && age < friendlyFireImmunityTime)
+				return false;
+			return true;
 		}
 	}
 }
