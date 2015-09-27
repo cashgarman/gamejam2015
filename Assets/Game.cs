@@ -77,6 +77,9 @@ namespace Assets
 				slowmo = !slowmo;
 				Time.timeScale = slowmo ? GameSettings.instance.slowmoSpeed : 1f;
 			}
+
+			// CHEATS
+//			if(Input.GetKeyDown(KeyCode.))
 		}
 
 		public void SpawnPlayer(int playerNumber)

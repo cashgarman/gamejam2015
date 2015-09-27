@@ -60,7 +60,7 @@ namespace Assets
 			weapon.EndFire();
 		}
 
-		public void Update()
+		public new void Update()
 		{
 			base.Update();
 
