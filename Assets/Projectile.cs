@@ -2,7 +2,7 @@
 
 namespace Assets
 {
-	public class Projectile : MonoBehaviour
+	public class Projectile : SpaceObject
 	{
 		public float acceleratingForce = 10f;
 		public Ship owner;
@@ -25,6 +25,8 @@ namespace Assets
 
 		public void Update()
 		{
+			base.Update();
+
 			age += Time.deltaTime;
 		}
 

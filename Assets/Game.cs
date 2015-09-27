@@ -9,10 +9,12 @@ namespace Assets
 
 		public Ship player1Ship;
 		public Ship player2Ship;
+		public float arenaSize = 100f;
 		public float spawnRadius = 20f;
 		public CameraFollow followCamera;
 		public Text player1HealthText;
 		public Text player2HealthText;
+		public int numWormholePairs = 10;
 
 		public void Awake()
 		{
@@ -21,6 +23,18 @@ namespace Assets
 
 		public void Start()
 		{
+			// Create the wormholes
+			for (var i = 0; i < numWormholePairs; ++i)
+			{
+				var sideAObject = Instantiate(GameSettings.instance.wormholePrefab, Random.insideUnitCircle * arenaSize, Quaternion.identity) as GameObject;
+				var sideBObject = Instantiate(GameSettings.instance.wormholePrefab, Random.insideUnitCircle * arenaSize, Quaternion.identity) as GameObject;
+				var sideA = sideAObject.GetComponent<Wormhole>();
+				var sideB = sideBObject.GetComponent<Wormhole>();
+
+				sideA.otherSide = sideB;
+				sideB.otherSide = sideA;
+			}
+
 			// Spawn the players
 			SpawnPlayer(1);
 			SpawnPlayer(2);

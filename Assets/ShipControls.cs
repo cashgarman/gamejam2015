@@ -21,67 +21,54 @@ namespace Assets
 		public float dragScale = 0.5f;
 		public string horizontalAxisName = "Player1Horizontal";
 		public string verticalAxisName = "Player1Vertical";
+		public string boostAxisName = "Player1Boost";
 		public bool disabled = false;
+		private float boost;
 
 		public void Start()
 		{
 			rigidbody = GetComponent<Rigidbody2D>();
 		}
-		public void Update()
-		{
-			HandleKeys();
-		}
 
-		private void HandleKeys()
+		public void Update()
 		{
 			if (disabled)
 				return;
+
+			boost = Input.GetAxis(boostAxisName);
 
 			// Create a goal in space
 			var goal = nose.position + new Vector3(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName)) * goalDistance;
 			Debug.DrawLine(nose.position, goal, Color.green);
 
-			// Drag the ship by the nose to the goal
-			rigidbody.AddForceAtPosition((goal - nose.position) * dragScale, nose.position);
+			if (boost <= 0)
+			{
+				SetBoostEnabled(false);
+
+				// Drag the ship by the nose to the goal at a normal speed
+				rigidbody.AddForceAtPosition((goal - nose.position) * dragScale, nose.position);
+			}
+			else
+			{
+				SetBoostEnabled(true, boost);
+
+				// Drag the ship by the nose to the goal at a boosted speed
+				rigidbody.AddForceAtPosition((goal - nose.position) * dragScale * GameSettings.instance.boostFactor * boost, nose.position);
+			}
 		}
 
-		private void HandleKeys2()
+		private void SetBoostEnabled(bool enabled, float boost = 0f)
 		{
-			// ROTATE the ship.
-
-			// Grab our rotation quaternion
-			var rot = transform.rotation;
-
-			// Grab the Z euler angle
-			var z = rot.eulerAngles.z;
-
-			// Change the Z angle based on input
-			z -= Input.GetAxis("Horizontal") * rotSpeed * Time.deltaTime;
-
-			// Recreate the quaternion
-			rot = Quaternion.Euler(0, 0, z);
-
-			// Feed the quaternion into our rotation
-			transform.rotation = rot;
-
-			var pos = transform.position;
-
-			// Update the velocity
-			var thrust = Mathf.Max(Input.GetAxis("Vertical"), 0f);
-			velocity += transform.up * thrust * acceleration * Time.deltaTime;
-
-			// Limit the ship's top speed
-			velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
-
-			// Apply drag
-			velocity += -velocity.normalized * drag * velocity.magnitude;
-
-			// Update the position
-			pos += velocity * Time.deltaTime;
-			transform.position = pos;
-
-			// Update how much the ship's engine is thrusting
-			ship.engineThrust = thrust;
+			if (enabled)
+			{
+				ship.engineParticles.startSize = Mathf.Lerp(GameSettings.instance.normalEngineParticleSize, GameSettings.instance.boostEngineParticleSize, boost);
+				ship.engineParticles.emissionRate = Mathf.Lerp(GameSettings.instance.normalEngineEmissionRate, GameSettings.instance.boostEngineEmissionRate, boost);
+			}
+			else
+			{
+				ship.engineParticles.startSize = GameSettings.instance.normalEngineParticleSize;
+				ship.engineParticles.emissionRate = GameSettings.instance.normalEngineEmissionRate;
+			}
 		}
 	}
 }

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Assets
 {
-	public class Ship : MonoBehaviour
+	public class Ship : SpaceObject
 	{
 		public GameObject bulletPrefab;
 		public Transform muzzle;
@@ -21,6 +21,7 @@ namespace Assets
 		public int playerNumber = 1;
 
 		public ShipControls controls;
+		public ParticleSystem engineParticles;
 
 		public void Start()
 		{
@@ -54,6 +55,8 @@ namespace Assets
 
 		public void Update()
 		{
+			base.Update();
+
 			velocity = (transform.position - prevPosition) / Time.deltaTime;
 			prevPosition = transform.position;
 
