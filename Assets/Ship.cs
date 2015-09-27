@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Runtime.InteropServices;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets
@@ -109,6 +110,8 @@ namespace Assets
 			if(weapon != null)
 				UninstallWeapon();
 
+			Debug.Log("Installing weapon " + weapon.name);
+
 			var weaponObject = Instantiate(weaponPrefab);
 			weaponObject.transform.parent = transform;
 			weapon = weaponObject.GetComponent<Weapon>();
@@ -117,6 +120,8 @@ namespace Assets
 
 		public void UninstallWeapon()
 		{
+			Debug.Log("Uninstalling weapon " + weapon.name);
+
 			DestroyImmediate(weapon.gameObject);
 			weapon = null;
 		}

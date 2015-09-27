@@ -8,7 +8,7 @@ namespace Assets
 		public float reloadRate = 0.5f;
 		private bool firing;
 		private float timeSinceLastFire;
-		private float cooldown;
+		protected float cooldown;
 
 		public override void StartFire()
 		{
@@ -35,12 +35,12 @@ namespace Assets
 				FireProjectile();
 		}
 
-		private void FireProjectile()
+		protected virtual void FireProjectile()
 		{
 			// Spawn a projectile
-			var bulletObject = Instantiate(projectilePrefab, ship.muzzle.position, ship.muzzle.rotation) as GameObject;
-			var bullet = bulletObject.GetComponent<Projectile>();
-			bullet.owner = ship;
+			var projectileObject = Instantiate(projectilePrefab, ship.muzzle.position, ship.muzzle.rotation) as GameObject;
+			var projectile = projectileObject.GetComponent<Projectile>();
+			projectile.owner = ship;
 
 			cooldown = reloadRate;
 		}
