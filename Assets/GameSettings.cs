@@ -10,6 +10,7 @@ public class GameSettings : MonoBehaviour
 	public GameObject asteroidPrefab;
 	public GameObject explosionPrefab;
 	public GameObject starterWeaponPrefab;
+	public GameObject missileWeaponPrefab;
 
 	public float boostEngineParticleSize = 1.5f;
 	public float normalEngineParticleSize = 0.64f;
@@ -31,7 +32,7 @@ public class GameSettings : MonoBehaviour
 	public float explosionDuration = 1f;
 	public float slowmoSpeed = 0.1f;
 	public float shipExplosionSize = 10f;
-		
+
 	public void Awake()
 	{
 		instance = this;

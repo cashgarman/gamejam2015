@@ -79,7 +79,11 @@ namespace Assets
 			}
 
 			// CHEATS
-//			if(Input.GetKeyDown(KeyCode.))
+			if (Input.GetKeyDown(KeyCode.M))
+			{
+				player1Ship.InstallWeapon(GameSettings.instance.missileWeaponPrefab);
+				player2Ship.InstallWeapon(GameSettings.instance.missileWeaponPrefab);
+			}
 		}
 
 		public void SpawnPlayer(int playerNumber)
@@ -128,6 +132,11 @@ namespace Assets
 			redRibbons[0].SetActive(player2Score > 0);
 			redRibbons[1].SetActive(player2Score > 1);
 			redRibbons[2].SetActive(player2Score > 2);
+		}
+
+		public static SpaceObject GetOtherShip(Ship ship)
+		{
+			return ship == instance.player1Ship ? instance.player2Ship : instance.player1Ship;
 		}
 	}
 }
