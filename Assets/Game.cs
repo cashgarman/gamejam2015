@@ -14,6 +14,8 @@ namespace Assets
 		public CameraFollow followCamera;
 		public Text player1HealthText;
 		public Text player2HealthText;
+		public Text player1SpeedText;
+		public Text player2SpeedText;
 		public int numWormholePairs = 10;
 		public int numAsteroids = 30;
 
@@ -38,7 +40,7 @@ namespace Assets
 
 			// Spawn asteroids
 			for (var i = 0; i < numAsteroids; ++i)
-				Asteroid.Spawn(Random.value, Random.insideUnitCircle * arenaSize);
+				Asteroid.Spawn(Random.value, Random.insideUnitCircle * arenaSize, Random.insideUnitCircle * GameSettings.instance.maxAsteroidStartingVelocity);
 
 			// Spawn the players
 			SpawnPlayer(1);

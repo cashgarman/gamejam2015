@@ -40,10 +40,11 @@ namespace Assets
 				return;
 
 			for (var i = 0; i < numDebrisChunks; ++i)
-				Spawn(scale / numDebrisChunks, transform.position + Random.value * transform.localScale);
+				Spawn(scale / numDebrisChunks, transform.position + Random.value * transform.localScale * 3f,
+					Random.insideUnitCircle * GameSettings.instance.maxAsteroidDebrisVelocity);
 		}
 
-		public static void Spawn(float scale, Vector3 position)
+		public static void Spawn(float scale, Vector3 position, Vector3 velocity)
 		{
 			// Spawn the asteroid
 			var asteroidObject = Instantiate(GameSettings.instance.asteroidPrefab, position, Quaternion.Euler(0, 0, Random.value * 360f)) as GameObject;
@@ -57,7 +58,22 @@ namespace Assets
 			rigidBody.mass = Mathf.Lerp(GameSettings.instance.minAsteroidMass, GameSettings.instance.maxAsteroidMass, scale);
 
 			// Give the asteroid a random velocity
-			rigidBody.velocity = Random.insideUnitCircle * GameSettings.maxAsteroidVelocity;
+			rigidBody.velocity = velocity;
+		}
+
+		public float GetImpactDamage(SpaceObject target)
+		{
+			// Don't damage other asteroids
+			if (target is Asteroid)
+				return 0;
+
+			// Do damage based on speed
+			var speed = target.GetComponent<Rigidbody2D>().velocity.magnitude;
+			if (speed < GameSettings.instance.minImpactDamageSpeed)
+				return 0;
+
+			return Mathf.Lerp(GameSettings.instance.minAsteroidImpactDamage, GameSettings.instance.maxAsteroidImpactDamage, speed
+				/ GameSettings.instance.maxShipSpeed);
 		}
 	}
 }

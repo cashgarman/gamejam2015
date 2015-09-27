@@ -15,11 +15,16 @@ public class GameSettings : MonoBehaviour
 	public float normalEngineEmissionRate = 40f;
 	public float boostFactor = 5f;
 	public float wormholeImmunityTime = 1f;
-	public static float maxAsteroidVelocity = 1f;
+	public float maxAsteroidStartingVelocity = 1f;
+	public float maxAsteroidDebrisVelocity = 5f;
 	public float minAsteroidScale = 0.5f;
 	public float maxAsteroidScale = 4f;
 	public float minAsteroidMass = 1f;
 	public float maxAsteroidMass = 8f;
+	public float minAsteroidImpactDamage = 0f;
+	public float maxAsteroidImpactDamage = 50f;
+	public float maxShipSpeed = 50f;
+	public float minImpactDamageSpeed = 10f;
 
 	public void Awake()
 	{

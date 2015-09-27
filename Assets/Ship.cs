@@ -20,6 +20,7 @@ namespace Assets
 
 		public ShipControls controls;
 		public ParticleSystem engineParticles;
+		private Text speedText;
 
 		public new void Start()
 		{
@@ -28,20 +29,22 @@ namespace Assets
 			prevPosition = transform.position;
 			fuel = startingFuel;
 
-			UpdateFuelDisplay();
-
 			if (playerNumber == 1)
 			{
 				Game.instance.player1Ship = this;
 				Game.instance.followCamera.player1 = transform;
 				healthText = Game.instance.player1HealthText;
+				speedText = Game.instance.player1SpeedText;
 			}
 			else
 			{
 				Game.instance.player2Ship = this;
 				Game.instance.followCamera.player2 = transform;
 				healthText = Game.instance.player2HealthText;
+				speedText = Game.instance.player2SpeedText;
 			}
+
+			UpdateDisplay();
 		}
 
 		public void Fire()
@@ -61,20 +64,19 @@ namespace Assets
 
 			fuel -= engineThrust * fuelUseRate * Time.deltaTime;
 
-			UpdateFuelDisplay();
-			UpdateHealthDisplay();
+			UpdateDisplay();
 		}
 
-		private void UpdateFuelDisplay()
+		private void UpdateDisplay()
 		{
 			if (fuelText != null)
 				fuelText.text = string.Format("Fuel: {0:F1}", fuel);
-		}
 
-		private void UpdateHealthDisplay()
-		{
 			if (healthText != null)
 				healthText.text = string.Format("Player {0} Health: {1:F1}%", playerNumber, health);
+
+			if (speedText != null)
+				speedText.text = string.Format("Player {0} Speed: {1:F1}%", playerNumber, rigidbody.velocity.magnitude);
 		}
 
 		public override void OnDestroyed()

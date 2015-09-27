@@ -13,7 +13,6 @@ namespace Assets
 		public float rotSpeed = 180f;
 		public Vector3 velocity;
 		public float acceleration = 10f;
-		public float maxSpeed = 15f;
 		public Ship ship;
 		public Transform nose;
 
@@ -55,6 +54,9 @@ namespace Assets
 				// Drag the ship by the nose to the goal at a boosted speed
 				rigidbody.AddForceAtPosition((goal - nose.position) * dragScale * GameSettings.instance.boostFactor * boost, nose.position);
 			}
+
+			// Limit the ship speed
+			rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, GameSettings.instance.maxShipSpeed);
 		}
 
 		private void SetBoostEnabled(bool enabled, float boost = 0f)
