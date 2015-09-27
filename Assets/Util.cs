@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets
 {
-	public class Util
+	public class Util : MonoBehaviour
 	{
 		public static T RandomElement<T>(T[] array)
 		{
@@ -30,6 +30,13 @@ namespace Assets
 		public static Quaternion RandomRotation()
 		{
 			return Quaternion.Euler(0, 0, Random.value * 360f);
+		}
+
+		public static void SpawnParticleEffect(GameObject prefab, Vector3 position, float size, float duration)
+		{
+			var obj = Instantiate(prefab, position, Random.rotation) as GameObject;
+			obj.GetComponent<ParticleSystem>().startSize = size;
+			Destroy(obj, duration);
 		}
 	}
 }

@@ -18,6 +18,9 @@ namespace Assets
 		public float particleSystemLife = 5f;
 		public string impactSound;
 		public float impactSoundVolume = 1f;
+		public GameObject explosionPrefab;
+		public float explosionDuration;
+		public float explosionSize;
 
 		public new void Start()
 		{
@@ -54,6 +57,10 @@ namespace Assets
 
 		private void OnDestroy()
 		{
+			// Spawn any explosion effect
+			if (explosionPrefab != null)
+				Util.SpawnParticleEffect(explosionPrefab, transform.position, explosionSize, explosionDuration);
+
 			if (particleSystem != null)
 			{
 				particleSystem.Stop();

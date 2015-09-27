@@ -8,7 +8,6 @@ namespace Assets
 		public SpaceObject target;
 		public float accelerationForce = 1f;
 		public float maxSpeed = 25f;
-		public float explosionSize = 2f;
 		public float minBeepInterval = 2f;
 		public float maxBeepInterval = 0.1f;
 		public bool shouldBeepOnProximity;
@@ -66,14 +65,6 @@ namespace Assets
 					Sounds.PlayOneShot(beepSound);
 				}
 			}
-		}
-
-		public override void OnDestroyed()
-		{
-			base.OnDestroyed();
-
-			// Spawn an explosion
-			SpawnExplosion(explosionSize, GameSettings.instance.explosionDuration);
 		}
 	}
 }
