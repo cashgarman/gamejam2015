@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Assets
 {
-	public class Ship : MonoBehaviour
+	public class Ship : SpaceObject
 	{
 		public GameObject bulletPrefab;
 		public Transform muzzle;
@@ -16,19 +16,35 @@ namespace Assets
 		public float engineThrust;
 
 		public Text healthText;
-		public float health;
-		public float startingHealth;
 		public int playerNumber = 1;
 
 		public ShipControls controls;
+		public ParticleSystem engineParticles;
+		private Text speedText;
 
-		public void Start()
+		public new void Start()
 		{
+			base.Start();
+
 			prevPosition = transform.position;
 			fuel = startingFuel;
-			health = startingHealth;
 
-			UpdateFuelDisplay();
+			if (playerNumber == 1)
+			{
+				Game.instance.player1Ship = this;
+				Game.instance.followCamera.player1 = transform;
+				healthText = Game.instance.player1HealthText;
+				speedText = Game.instance.player1SpeedText;
+			}
+			else
+			{
+				Game.instance.player2Ship = this;
+				Game.instance.followCamera.player2 = transform;
+				healthText = Game.instance.player2HealthText;
+				speedText = Game.instance.player2SpeedText;
+			}
+
+			UpdateDisplay();
 		}
 
 		public void Fire()
@@ -41,63 +57,31 @@ namespace Assets
 
 		public void Update()
 		{
+			base.Update();
+
 			velocity = (transform.position - prevPosition) / Time.deltaTime;
 			prevPosition = transform.position;
 
 			fuel -= engineThrust * fuelUseRate * Time.deltaTime;
 
-			UpdateFuelDisplay();
-			UpdateHealthDisplay();
+			UpdateDisplay();
 		}
 
-		private void UpdateFuelDisplay()
+		private void UpdateDisplay()
 		{
 			if (fuelText != null)
 				fuelText.text = string.Format("Fuel: {0:F1}", fuel);
-		}
 
-		private void UpdateHealthDisplay()
-		{
 			if (healthText != null)
 				healthText.text = string.Format("Player {0} Health: {1:F1}%", playerNumber, health);
+
+			if (speedText != null)
+				speedText.text = string.Format("Player {0} Speed: {1:F1}%", playerNumber, rigidbody.velocity.magnitude);
 		}
 
-		public void OnCollisionEnter2D(Collision2D collision)
+		public override void OnDestroyed()
 		{
-			OnHit(collision.collider);
-		}
-
-		public void OnTriggerEnter2D(Collider2D collider)
-		{
-			OnHit(collider);
-		}
-
-		public void OnHit(Collider2D collider)
-		{
-			// If the collider is a projectile
-			var projectile = collider.GetComponent<Projectile>();
-			if (projectile != null)
-			{
-				// If the projectile should apply damage
-				if (projectile.doesDamage && (this != projectile.owner || projectile.friendlyFire))
-				{
-					// Damage the ship
-					var damage = projectile.GetDamage(this);
-					Debug.Log("Received " + damage + " damage");
-					health -= damage;
-
-					// Check if we were destroyed
-					if (health <= 0f)
-						OnDestroyed();
-				}
-			}
-
-			Debug.Log("Hit by collider " + collider.name);
-		}
-
-		private void OnDestroyed()
-		{
-			// Spawn an explosion
+			// TODO: Spawn an explosion
 
 			// Disable the player controls
 			controls.disabled = true;
@@ -106,7 +90,7 @@ namespace Assets
 			Destroy(gameObject);
 
 			// Respawn the ship
-			Game.instance.RespawnPlayer(playerNumber);
+			Game.instance.SpawnPlayer(playerNumber);
 		}
 	}
 }
