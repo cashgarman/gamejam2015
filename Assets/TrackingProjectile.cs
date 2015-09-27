@@ -53,6 +53,7 @@ namespace Assets
 			rigidbody.AddForce(transform.up * accelerationForce);
 			rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, maxSpeed);
 
+			// Proximity beeping
 			if (shouldBeepOnProximity)
 			{
 				var distance = Vector3.Distance(transform.position, target.transform.position);
