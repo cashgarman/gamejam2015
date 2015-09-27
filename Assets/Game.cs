@@ -15,6 +15,7 @@ namespace Assets
 		public Text player1HealthText;
 		public Text player2HealthText;
 		public int numWormholePairs = 10;
+		public int numAsteroids = 30;
 
 		public void Awake()
 		{
@@ -23,7 +24,7 @@ namespace Assets
 
 		public void Start()
 		{
-			// Create the wormholes
+			// Spawn wormholes
 			for (var i = 0; i < numWormholePairs; ++i)
 			{
 				var sideAObject = Instantiate(GameSettings.instance.wormholePrefab, Random.insideUnitCircle * arenaSize, Quaternion.identity) as GameObject;
@@ -34,6 +35,10 @@ namespace Assets
 				sideA.otherSide = sideB;
 				sideB.otherSide = sideA;
 			}
+
+			// Spawn asteroids
+			for (var i = 0; i < numAsteroids; ++i)
+				Asteroid.Spawn(Random.value, Random.insideUnitCircle * arenaSize);
 
 			// Spawn the players
 			SpawnPlayer(1);
@@ -58,6 +63,12 @@ namespace Assets
 		public void SpawnPlayer(int playerNumber)
 		{
 			Debug.Log("Spawning player " + playerNumber);
+
+			var position = new Vector3();
+			do
+			{
+				position = GetRandomSpawnPosition();
+			} while (Physics2D.OverlapCircle(position, 3f));
 
 			if (playerNumber == 1)
 				player1Ship = (Instantiate(GameSettings.instance.player1ShipPrefab, GetRandomSpawnPosition(), Quaternion.identity) as GameObject).GetComponent<Ship>();

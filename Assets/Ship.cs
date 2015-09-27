@@ -16,18 +16,17 @@ namespace Assets
 		public float engineThrust;
 
 		public Text healthText;
-		public float health;
-		public float startingHealth;
 		public int playerNumber = 1;
 
 		public ShipControls controls;
 		public ParticleSystem engineParticles;
 
-		public void Start()
+		public new void Start()
 		{
+			base.Start();
+
 			prevPosition = transform.position;
 			fuel = startingFuel;
-			health = startingHealth;
 
 			UpdateFuelDisplay();
 
@@ -78,45 +77,9 @@ namespace Assets
 				healthText.text = string.Format("Player {0} Health: {1:F1}%", playerNumber, health);
 		}
 
-		public void OnCollisionEnter2D(Collision2D collision)
+		public override void OnDestroyed()
 		{
-			OnHit(collision.collider);
-		}
-
-		public void OnTriggerEnter2D(Collider2D collider)
-		{
-			OnHit(collider);
-		}
-
-		public void OnHit(Collider2D collider)
-		{
-			// If the collider is a projectile
-			var projectile = collider.GetComponent<Projectile>();
-			if (projectile != null)
-			{
-				// If the projectile should apply damage
-				if (projectile.doesDamage && (this != projectile.owner || projectile.friendlyFire) && projectile.CanHit(this))
-				{
-					// Damage the ship
-					var damage = projectile.GetDamage(this);
-					Debug.Log("Received " + damage + " damage");
-					health -= damage;
-
-					// Check if we were destroyed
-					if (health <= 0f)
-						OnDestroyed();
-
-					// Let the projectile know it hit something
-					projectile.OnHit(this);
-				}
-			}
-
-			Debug.Log("Hit by collider " + collider.name);
-		}
-
-		private void OnDestroyed()
-		{
-			// Spawn an explosion
+			// TODO: Spawn an explosion
 
 			// Disable the player controls
 			controls.disabled = true;

@@ -15,8 +15,10 @@ namespace Assets
 		public new ParticleSystem particleSystem;
 		public float particleSystemLife = 5f;
 
-		public void Start()
+		public new void Start()
 		{
+			base.Start();
+
 			// Accelerate forward
 			var rigidbody = GetComponent<Rigidbody2D>();
 			rigidbody.velocity = owner.GetComponent<Ship>().velocity;
@@ -30,7 +32,7 @@ namespace Assets
 			age += Time.deltaTime;
 		}
 
-		public float GetDamage(Ship target)
+		public float GetDamage(SpaceObject target)
 		{
 			if (target == owner && age < friendlyFireImmunityTime)
 				return 0;
@@ -38,11 +40,10 @@ namespace Assets
 			return damage;
 		}
 
-		public void OnHit(Ship target)
+		public void OnHitSpaceObject(SpaceObject target)
 		{
 			if (destroyOnHit)
 				OnDestroy();
-				Destroy(gameObject);
 		}
 
 		private void OnDestroy()
@@ -50,9 +51,15 @@ namespace Assets
 			particleSystem.Stop();
 			particleSystem.transform.parent = null;
 			Destroy(particleSystem.gameObject, particleSystemLife);
+			Destroy(gameObject);
 		}
 
-		public bool CanHit(Ship target)
+		public override void OnHit(Collider2D collider)
+		{
+			// Projectile's don't handle their own collision, the things they hit do
+		}
+
+		public bool CanHit(SpaceObject target)
 		{
 			if (target == owner && age < friendlyFireImmunityTime)
 				return false;
