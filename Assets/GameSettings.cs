@@ -40,6 +40,15 @@ public class GameSettings : MonoBehaviour
 	public float wormholeMovementSpeed = 1f;
 	public float wormholeExitThreshold = 1f;
 	public float wormholeExitImpulse = 25f;
+	public float energyRechargePerSecond = 0.1f;
+	public float boostEnergyUseRate = 0.25f;
+	public float spawnRadius = 100f;
+	public float minIdlePitch = 0.5f;
+	public float maxIdlePitch = 1.0f;
+	public float engineIdleVolume = 1f;
+	public float engineBoostVolume = 1f;
+	public float minBoostPitch = .5f;
+	public float maxBoostPitch = 1f;
 
 	public void Awake()
 	{

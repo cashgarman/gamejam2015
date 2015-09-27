@@ -1,14 +1,11 @@
 TODO:
 =====
-- Win condition
-- Sound & music!
+- Sounds!
 - More projectile (tracking and otherwise) weapon types
 - Restart screen
 - Fix camera zooming to prevent players off screen vertically
 - Beam weapons
-- Smooth camera on player death 
-- Gravity
-- Boost downsides (Uses energy, recharges)
+- Smooth camera on player death
 - Shrink objects that wormholes & wormhole entrance effect
 - Shockwaves on player destruction
 - Highscore board? (damage taken / damage dealt ratio)

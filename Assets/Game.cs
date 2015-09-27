@@ -10,7 +10,6 @@ namespace Assets
 		public Ship player1Ship;
 		public Ship player2Ship;
 		public float arenaSize = 100f;
-		public float spawnRadius = 20f;
 		public CameraFollow followCamera;
 		public Text player1HealthText;
 		public Text player2HealthText;
@@ -26,6 +25,10 @@ namespace Assets
 		public GameObject player1WinObject;
 		public GameObject player2WinObject;
 		private bool gameover;
+		public Slider player1HealthSlider;
+		public Slider player2HealthSlider;
+		public Slider player1EnergySlider;
+		public Slider player2EnergySlider;
 
 		public void Awake()
 		{
@@ -122,7 +125,8 @@ namespace Assets
 
 		private Vector3 GetRandomSpawnPosition()
 		{
-			return new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(-spawnRadius, spawnRadius));
+			var radius = GameSettings.instance.spawnRadius;
+			return new Vector3(Random.Range(-radius, radius), Random.Range(-radius, radius));
 		}
 
 		public void OnPlayerKilled(int playerNumber)

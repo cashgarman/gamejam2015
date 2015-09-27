@@ -17,6 +17,7 @@ namespace Assets
 
 		public List<Sound> sounds;
 		public AudioSource source;
+		private static int nextID;
 
 		public void Awake()
 		{

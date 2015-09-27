@@ -30,8 +30,7 @@ namespace Assets
 			SpawnWormholeEnterEffect();
 
 			// Play the wormhole enter sound
-			var ship = collider.GetComponent<Ship>();
-			if(ship != null)
+			if(spaceObject is Ship)
 				Sounds.PlayOneShot("WormholeShipEnter");
 			else
 				Sounds.PlayOneShot("WormholeObjectEnter");
@@ -41,9 +40,10 @@ namespace Assets
 			spaceObject.immuneToWormholes = true;
 
 			// If the entering object is a ship
-			
-			if (ship != null)
+			if (spaceObject is Ship)
 			{
+				var ship = spaceObject as Ship;
+
 				// Hide the player
 				ship.SetVisible(false);
 
@@ -64,6 +64,10 @@ namespace Assets
 
 				// Player the wormhole exit sound
 				Sounds.PlayOneShot("WormholeObjectExit");
+
+				// Throw the object out of the wormhole
+				spaceObject.ApplyForce((otherSide.transform.position - transform.position).normalized *
+								GameSettings.instance.wormholeExitImpulse / Time.deltaTime);
 			}
 		}
 

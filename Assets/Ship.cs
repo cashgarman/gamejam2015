@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +24,15 @@ namespace Assets
 		public ParticleSystem engineParticles;
 		private Text speedText;
 		public Weapon weapon;
+		public Slider healthSlider;
+		public Slider energySlider;
+		public float energy = 1f;
+		public float energyUsage;
+
+		public AudioSource engineIdleSound;
+		public AudioSource engineBoostSound;
+
+		public float engineRPM;
 
 		public new void Start()
 		{
@@ -37,6 +47,8 @@ namespace Assets
 				Game.instance.followCamera.player1 = transform;
 				healthText = Game.instance.player1HealthText;
 				speedText = Game.instance.player1SpeedText;
+				healthSlider = Game.instance.player1HealthSlider;
+				energySlider = Game.instance.player1EnergySlider;
 			}
 			else
 			{
@@ -44,6 +56,8 @@ namespace Assets
 				Game.instance.followCamera.player2 = transform;
 				healthText = Game.instance.player2HealthText;
 				speedText = Game.instance.player2SpeedText;
+				healthSlider = Game.instance.player2HealthSlider;
+				energySlider = Game.instance.player2EnergySlider;
 			}
 
 			UpdateDisplay();
@@ -68,12 +82,39 @@ namespace Assets
 		{
 			base.Update();
 
+			Debug.Log("RPM: " + engineRPM);
+			if (controls.boost == 0)
+			{
+				engineBoostSound.volume = 0;
+				engineIdleSound.volume = GameSettings.instance.engineIdleVolume * CameraFollow.instance.zoomAmount;
+				engineIdleSound.pitch = Mathf.Lerp(GameSettings.instance.minIdlePitch, GameSettings.instance.maxIdlePitch, engineRPM);
+			}
+			else
+			{
+				engineIdleSound.volume = 0;
+				engineBoostSound.volume = GameSettings.instance.engineBoostVolume * CameraFollow.instance.zoomAmount;
+				engineBoostSound.pitch = Mathf.Lerp(GameSettings.instance.minBoostPitch, GameSettings.instance.maxBoostPitch,
+													engineRPM);
+			}
+
 			velocity = (transform.position - prevPosition) / Time.deltaTime;
 			prevPosition = transform.position;
 
 			fuel -= engineThrust * fuelUseRate * Time.deltaTime;
 
+			if (energyUsage == 0)
+				energy += GameSettings.instance.energyRechargePerSecond * Time.deltaTime;
+			else
+				energy -= energyUsage * Time.deltaTime;
+
+			energy = Mathf.Clamp(energy, 0f, 1f);
+
 			UpdateDisplay();
+		}
+
+		public void LateUpdate()
+		{
+			energyUsage = 0f;
 		}
 
 		private void UpdateDisplay()
@@ -86,6 +127,12 @@ namespace Assets
 
 			if (speedText != null)
 				speedText.text = string.Format("Player {0} Speed: {1:F1}%", playerNumber, rigidbody.velocity.magnitude);
+
+			if (healthSlider != null)
+				healthSlider.value = health / startingHealth;
+
+			if (energySlider != null)
+				energySlider.value = energy;
 		}
 
 		public override void OnDestroyed()

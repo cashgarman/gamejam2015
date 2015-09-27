@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets
 {
@@ -21,7 +23,7 @@ namespace Assets
 		public string verticalAxisName = "Player1Vertical";
 		public string boostAxisName = "Player1Boost";
 		public bool disabled = false;
-		private float boost;
+		public float boost;
 
 		public void Start()
 		{
@@ -35,6 +37,15 @@ namespace Assets
 
 			boost = Input.GetAxis(boostAxisName);
 
+			if (boost > 0)
+				ship.energyUsage += GameSettings.instance.boostEnergyUseRate * boost;
+			
+			if (ship.energy <= 0f)
+				boost = 0;
+
+			// Update the ship RPM
+			ship.engineRPM = new Vector2(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName)).magnitude;
+			
 			// Create a goal in space
 			var goal = nose.position + new Vector3(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName)) * goalDistance;
 			Debug.DrawLine(nose.position, goal, Color.green);
