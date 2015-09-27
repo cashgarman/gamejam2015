@@ -1,9 +1,13 @@
 fileFormatVersion: 2
 guid: 28a006ac793de29468b57f8305b38e98
-timeCreated: 1443324767
+timeCreated: 1443333484
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: PizzaMissile
+    21300002: FatBoy
+    21300004: LuigiMissile
+    21300006: OliveProbe
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,26 +34,66 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
-    wrapMode: -1
-  nPOTScale: 1
+    wrapMode: 1
+  nPOTScale: 0
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 0
-  textureType: -1
+  alphaIsTransparency: 1
+  textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: PizzaMissile
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 132
+        width: 182
+        height: 256
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: FatBoy
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 247
+        width: 165
+        height: 170
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: LuigiMissile
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 131
+        width: 54
+        height: 114
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: OliveProbe
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 162
+        width: 107
+        height: 235
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 
