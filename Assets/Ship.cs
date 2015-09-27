@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Collections;
+using System.Runtime.InteropServices;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
@@ -102,7 +103,7 @@ namespace Assets
 
 			fuel -= engineThrust * fuelUseRate * Time.deltaTime;
 
-			if (energyUsage == 0)
+			if (energyUsage <= 0)
 				energy += GameSettings.instance.energyRechargePerSecond * Time.deltaTime;
 			else
 				energy -= energyUsage * Time.deltaTime;
@@ -139,9 +140,13 @@ namespace Assets
 		{
 			base.OnDestroyed();
 
-			// Spawn an explosion
+			// Spawn an explosion and shockwave
 			SpawnExplosion(GameSettings.instance.shipExplosionSize, GameSettings.instance.explosionDuration);
+			SpawnShockwave(GameSettings.instance.shipShockwaveSize, GameSettings.instance.shipShockwaveDuration);
 
+			// Play the player explosion sound
+			Sounds.PlayOneShot("PlayerExplosion");
+			
 			// Disable the player
 			SetDisabled(true);
 
@@ -149,7 +154,7 @@ namespace Assets
 			Destroy(gameObject);
 
 			// Respawn the ship
-			Game.instance.SpawnPlayer(playerNumber);
+			Game.instance.DelaySpawnPlayer(playerNumber);
 
 			// Let the game know a player was killed
 			Game.instance.OnPlayerKilled(playerNumber);

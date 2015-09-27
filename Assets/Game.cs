@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets
@@ -65,10 +66,15 @@ namespace Assets
 
 		private void HandleInput()
 		{
-			if(Input.GetKeyDown("1"))
+			if(Input.GetKeyDown("1") && !Input.GetKey(KeyCode.LeftShift))
 				OnPlayerWon(1);
-			if (Input.GetKeyDown("2"))
+			if (Input.GetKeyDown("2") && !Input.GetKey(KeyCode.LeftShift))
 				OnPlayerWon(2);
+
+			if (Input.GetKeyDown("1") && Input.GetKey(KeyCode.LeftShift))
+				player1Ship.OnDestroyed();
+			if (Input.GetKeyDown("2") && Input.GetKey(KeyCode.LeftShift))
+				player2Ship.OnDestroyed();
 			
 			if(gameover && Input.GetKeyDown(KeyCode.Return))
 				Application.LoadLevel(0);
@@ -98,6 +104,13 @@ namespace Assets
 				Debug.Log("Giving both players missiles");
 				player1Ship.InstallWeapon(GameSettings.instance.missileWeaponPrefab);
 				player2Ship.InstallWeapon(GameSettings.instance.missileWeaponPrefab);
+			}
+
+			if (Input.GetKeyDown(KeyCode.B))
+			{
+				Debug.Log("Giving both players beam weapons");
+				player1Ship.InstallWeapon(GameSettings.instance.beamWeaponPrefab);
+				player2Ship.InstallWeapon(GameSettings.instance.beamWeaponPrefab);
 			}
 		}
 
@@ -174,6 +187,18 @@ namespace Assets
 		public static SpaceObject GetOtherShip(Ship ship)
 		{
 			return ship == instance.player1Ship ? instance.player2Ship : instance.player1Ship;
+		}
+
+		public void DelaySpawnPlayer(int playerNumber)
+		{
+			StartCoroutine(DelaySpawnPlayerInternal(playerNumber));
+		}
+
+		private IEnumerator DelaySpawnPlayerInternal(int playerNumber)
+		{
+			yield return new WaitForSeconds(GameSettings.instance.respawnDelay);
+
+			SpawnPlayer(playerNumber);
 		}
 	}
 }

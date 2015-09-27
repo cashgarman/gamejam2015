@@ -29,7 +29,7 @@ namespace Assets
 			transform.position = ((player1.position + player2.position) / 2f) + Vector3.back * distance;
 
 			var targetDistance = Vector3.Distance(player1.position, player2.position);
-			camera.orthographicSize = Mathf.Clamp(targetDistance / 2f, startingSize, maxCameraSize);
+			camera.orthographicSize = Mathf.Clamp(targetDistance / 1.5f, startingSize, maxCameraSize);
 			zoomAmount = 1f - (camera.orthographicSize - startingSize) / maxCameraSize;
 		}
 	}

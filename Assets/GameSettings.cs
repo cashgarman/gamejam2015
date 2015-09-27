@@ -9,8 +9,10 @@ public class GameSettings : MonoBehaviour
 	public GameObject player2ShipPrefab;
 	public GameObject asteroidPrefab;
 	public GameObject explosionPrefab;
+	public GameObject shockwavePrefab;
 	public GameObject starterWeaponPrefab;
 	public GameObject missileWeaponPrefab;
+	public GameObject beamWeaponPrefab;
 	public GameObject wormholeEnterEffectPrefab;
 	public GameObject wormholeExitEffectPrefab;
 
@@ -52,6 +54,9 @@ public class GameSettings : MonoBehaviour
 	public float minAsteroidExplosionSound = .5f;
 	public float maxAsteroidExplosionSound = 1f;
 	public float boostStartVolume = 0.5f;
+	public float shipShockwaveDuration = 1f;
+	public float shipShockwaveSize = 5f;
+	public float respawnDelay = 2f;
 
 	public void Awake()
 	{

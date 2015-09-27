@@ -75,7 +75,7 @@ namespace Assets
 			}
 		}
 
-		private void TakeDamage(float damage)
+		public  void TakeDamage(float damage)
 		{
 //			Debug.Log("Received " + damage + " damage");
 			health -= damage;
@@ -97,6 +97,16 @@ namespace Assets
 
 			// Destroy the explosion after the duration
 			Destroy(explosionObject, duration);
+		}
+
+		protected void SpawnShockwave(float size, float duration)
+		{
+			// Create the explosion
+			var shockwaveObject = Instantiate(GameSettings.instance.shockwavePrefab, transform.position, Util.RandomRotation()) as GameObject;
+			shockwaveObject.GetComponent<ParticleSystem>().startSize = size;
+
+			// Destroy the explosion after the duration
+			Destroy(shockwaveObject, duration);
 		}
 
 		public void ApplyForce(Vector3 force)
