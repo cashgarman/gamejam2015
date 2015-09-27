@@ -9,6 +9,14 @@ namespace Assets
 		public float accelerationForce = 1f;
 		public float maxSpeed = 25f;
 		public float explosionSize = 2f;
+		public float minBeepInterval = 2f;
+		public float maxBeepInterval = 0.1f;
+		public bool shouldBeepOnProximity;
+		public float minBeepDistance = 1f;
+		public float maxBeepDistance = 50f;
+		private float timeTillNextBeep;
+		private float timeSinceLastBeep;
+		public string beepSound;
 
 		public new void Start()
 		{
@@ -44,6 +52,19 @@ namespace Assets
 			// Accelerate forwards
 			rigidbody.AddForce(transform.up * accelerationForce);
 			rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, maxSpeed);
+
+			if (shouldBeepOnProximity)
+			{
+				var distance = Vector3.Distance(transform.position, target.transform.position);
+				timeTillNextBeep = Mathf.Lerp(maxBeepInterval, minBeepInterval, (distance - minBeepDistance) / maxBeepDistance);
+
+				timeSinceLastBeep += Time.deltaTime;
+				if (timeSinceLastBeep >= timeTillNextBeep)
+				{
+					timeSinceLastBeep = 0f;
+					Sounds.PlayOneShot(beepSound);
+				}
+			}
 		}
 
 		public override void OnDestroyed()
