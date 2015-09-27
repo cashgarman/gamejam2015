@@ -27,6 +27,9 @@ namespace Assets
 			// Spawn an explosion
 			SpawnExplosion(scale * GameSettings.instance.asteroidExplosionSize, GameSettings.instance.explosionDuration);
 
+			// Play the explosion sound
+			Sounds.PlayOneShot("AsteroidExplosion", Mathf.Lerp(GameSettings.instance.minAsteroidExplosionSound, GameSettings.instance.maxAsteroidExplosionSound, scale));
+
 			// Spawn some pieces based on how big the asteroid was
 			SpawnDebris();
 
@@ -70,13 +73,18 @@ namespace Assets
 			if (target is Asteroid)
 				return 0;
 
-			// Do damage based on speed
+			// Play an impact sound
 			var speed = target.GetComponent<Rigidbody2D>().velocity.magnitude;
+			var impactStrength = speed / GameSettings.instance.maxShipSpeed;
+
+			if (impactStrength > 0)
+				Sounds.PlayOneShot("AsteroidCollision", impactStrength * 2f);
+
+			// Do damage based on speed
 			if (speed < GameSettings.instance.minImpactDamageSpeed)
 				return 0;
 
-			return Mathf.Lerp(GameSettings.instance.minAsteroidImpactDamage, GameSettings.instance.maxAsteroidImpactDamage, speed
-				/ GameSettings.instance.maxShipSpeed);
+			return Mathf.Lerp(GameSettings.instance.minAsteroidImpactDamage, GameSettings.instance.maxAsteroidImpactDamage, impactStrength);
 		}
 	}
 }

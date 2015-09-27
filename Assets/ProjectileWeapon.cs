@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Assets
 {
@@ -6,9 +7,11 @@ namespace Assets
 	{
 		public GameObject projectilePrefab;
 		public float reloadRate = 0.5f;
+		public float delay;
 		private bool firing;
 		private float timeSinceLastFire;
 		protected float cooldown;
+		public string fireSoundName;
 
 		public override void StartFire()
 		{
@@ -35,15 +38,35 @@ namespace Assets
 				FireProjectile();
 		}
 
-		protected virtual void FireProjectile()
+		protected void FireProjectile()
+		{
+			// Play the fire sound
+			Sounds.PlayOneShot(fireSoundName);
+
+			cooldown = reloadRate;
+
+			if (delay > 0)
+			{
+				StartCoroutine(DelayFireProjectile());
+				return;
+			}
+			
+			FireProjectileInternal();
+		}
+
+		protected virtual void FireProjectileInternal()
 		{
 			// Spawn a projectile
 			var projectileObject = Instantiate(projectilePrefab, ship.muzzle.position, ship.muzzle.rotation) as GameObject;
 			var projectile = projectileObject.GetComponent<Projectile>();
 			projectile.owner = ship;
 			projectile.firingWeapon = this;
+		}
 
-			cooldown = reloadRate;
+		protected IEnumerator DelayFireProjectile()
+		{
+			yield return new WaitForSeconds(delay);
+			FireProjectileInternal();
 		}
 	}
 }

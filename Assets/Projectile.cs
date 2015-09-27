@@ -10,11 +10,14 @@ namespace Assets
 		public bool doesDamage = true;
 		public bool friendlyFire = true;
 		public float damage = 10f;
+		public float lifespan = -1f;
 		private float age;
 		public float friendlyFireImmunityTime = 0.5f;
 		public bool destroyOnHit = true;
 		public new ParticleSystem particleSystem;
 		public float particleSystemLife = 5f;
+		public string impactSound;
+		public float impactSoundVolume = 1f;
 
 		public new void Start()
 		{
@@ -30,6 +33,9 @@ namespace Assets
 			base.Update();
 
 			age += Time.deltaTime;
+
+			if(age >= lifespan && lifespan != -1f)
+				OnDestroy();
 		}
 
 		public float GetDamage(SpaceObject target)
@@ -60,7 +66,10 @@ namespace Assets
 
 		public override void OnHit(Collider2D collider)
 		{
-			// Projectile's don't handle their own collision, the things they hit do
+			// Projectile's don't handle their own damage, the things they hit do
+
+			// Play the impact sound
+			Sounds.PlayOneShot(impactSound, impactSoundVolume);
 		}
 
 		public bool CanHit(SpaceObject target)

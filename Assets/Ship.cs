@@ -82,7 +82,7 @@ namespace Assets
 		{
 			base.Update();
 
-			Debug.Log("RPM: " + engineRPM);
+			// Handle engine sounds
 			if (controls.boost == 0)
 			{
 				engineBoostSound.volume = 0;

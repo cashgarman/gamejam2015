@@ -24,6 +24,7 @@ namespace Assets
 		public string boostAxisName = "Player1Boost";
 		public bool disabled = false;
 		public float boost;
+		private bool boosting;
 
 		public void Start()
 		{
@@ -36,6 +37,14 @@ namespace Assets
 				return;
 
 			boost = Input.GetAxis(boostAxisName);
+
+			if (boost == 0)
+				boosting = false;
+			if (!boosting && boost > 0)
+			{
+				boosting = true;
+				Sounds.PlayOneShot("PlayerBoost", GameSettings.instance.boostStartVolume);
+			}
 
 			if (boost > 0)
 				ship.energyUsage += GameSettings.instance.boostEnergyUseRate * boost;

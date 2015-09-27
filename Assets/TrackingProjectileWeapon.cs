@@ -4,7 +4,7 @@ namespace Assets
 {
 	public class TrackingProjectileWeapon : ProjectileWeapon
 	{
-		protected override void FireProjectile()
+		protected override void FireProjectileInternal()
 		{
 			// Spawn a tracking projectile
 			var projectileObject = Instantiate(projectilePrefab, ship.muzzle.position, ship.muzzle.rotation) as GameObject;

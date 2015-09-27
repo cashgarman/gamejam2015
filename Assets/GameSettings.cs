@@ -49,6 +49,9 @@ public class GameSettings : MonoBehaviour
 	public float engineBoostVolume = 1f;
 	public float minBoostPitch = .5f;
 	public float maxBoostPitch = 1f;
+	public float minAsteroidExplosionSound = .5f;
+	public float maxAsteroidExplosionSound = 1f;
+	public float boostStartVolume = 0.5f;
 
 	public void Awake()
 	{
