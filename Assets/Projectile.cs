@@ -11,7 +11,7 @@ namespace Assets
 		public bool friendlyFire = true;
 		public float damage = 10f;
 		private float age;
-		public float friendlyFireImmunityTime = 0.25f;
+		public float friendlyFireImmunityTime = 0.5f;
 		public bool destroyOnHit = true;
 		public new ParticleSystem particleSystem;
 		public float particleSystemLife = 5f;
@@ -55,6 +55,7 @@ namespace Assets
 				Destroy(particleSystem.gameObject, particleSystemLife);
 			}
 			Destroy(gameObject);
+			OnDestroyed();
 		}
 
 		public override void OnHit(Collider2D collider)
