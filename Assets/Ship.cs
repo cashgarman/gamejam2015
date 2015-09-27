@@ -21,6 +21,7 @@ namespace Assets
 		public ShipControls controls;
 		public ParticleSystem engineParticles;
 		private Text speedText;
+		public Weapon weapon;
 
 		public new void Start()
 		{
@@ -47,12 +48,16 @@ namespace Assets
 			UpdateDisplay();
 		}
 
-		public void Fire()
+		public void StartFire()
 		{
-			// Spawn a bullet
-			var bulletObject = Instantiate(bulletPrefab, muzzle.position, muzzle.rotation) as GameObject;
-			var bullet = bulletObject.GetComponent<Projectile>();
-			bullet.owner = this;
+			// Start firing the current weapon
+			weapon.StartFire();
+		}
+
+		public void EndFire()
+		{
+			// Finish firing the current weapon
+			weapon.EndFire();
 		}
 
 		public void Update()
@@ -97,6 +102,23 @@ namespace Assets
 
 			// Let the game know a player was killed
 			Game.instance.OnPlayerKilled(playerNumber);
+		}
+
+		public void InstallWeapon(GameObject weaponPrefab)
+		{
+			if(weapon != null)
+				UninstallWeapon();
+
+			var weaponObject = Instantiate(weaponPrefab);
+			weaponObject.transform.parent = transform;
+			weapon = weaponObject.GetComponent<Weapon>();
+			weapon.ship = this;
+		}
+
+		public void UninstallWeapon()
+		{
+			DestroyImmediate(weapon.gameObject);
+			weapon = null;
 		}
 	}
 }

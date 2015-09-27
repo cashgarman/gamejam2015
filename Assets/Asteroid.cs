@@ -62,10 +62,6 @@ namespace Assets
 
 			// Give the asteroid a random velocity
 			rigidBody.velocity = velocity;
-
-			// Sometimes spawn a random pickup where the asteroid was
-//			if(Util.Chance(GameSettings.instance.chanceOfPickupOnAsteroidDestroy))
-
 		}
 
 		public float GetImpactDamage(SpaceObject target)

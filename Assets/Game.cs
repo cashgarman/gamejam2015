@@ -61,10 +61,16 @@ namespace Assets
 		{
 			// Firing
 			if (Input.GetButtonDown("Player1Fire"))
-				player1Ship.Fire();
+				player1Ship.StartFire();
 
 			if (Input.GetButtonDown("Player2Fire"))
-				player2Ship.Fire();
+				player2Ship.StartFire();
+
+			if (Input.GetButtonUp("Player1Fire"))
+				player1Ship.EndFire();
+
+			if (Input.GetButtonUp("Player2Fire"))
+				player2Ship.EndFire();
 
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
@@ -84,9 +90,15 @@ namespace Assets
 			} while (Physics2D.OverlapCircle(position, 3f));
 
 			if (playerNumber == 1)
+			{
 				player1Ship = (Instantiate(GameSettings.instance.player1ShipPrefab, GetRandomSpawnPosition(), Quaternion.identity) as GameObject).GetComponent<Ship>();
+				player1Ship.InstallWeapon(GameSettings.instance.starterWeaponPrefab);
+			}
 			else
+			{
 				player2Ship = (Instantiate(GameSettings.instance.player2ShipPrefab, GetRandomSpawnPosition(), Quaternion.identity) as GameObject).GetComponent<Ship>();
+				player2Ship.InstallWeapon(GameSettings.instance.starterWeaponPrefab);
+			}
 		}
 
 		private Vector3 GetRandomSpawnPosition()

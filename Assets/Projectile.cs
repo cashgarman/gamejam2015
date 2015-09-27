@@ -25,7 +25,7 @@ namespace Assets
 			rigidbody.AddForce(transform.up * acceleratingForce / Time.deltaTime);
 		}
 
-		public void Update()
+		public new void Update()
 		{
 			base.Update();
 
