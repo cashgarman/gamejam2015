@@ -19,6 +19,10 @@ namespace Assets
 		public int numWormholePairs = 10;
 		public int numAsteroids = 30;
 		private bool slowmo;
+		private int player1Score;
+		private int player2Score;
+		public GameObject[] redRibbons;
+		public GameObject[] blueRibbons;
 
 		public void Awake()
 		{
@@ -88,6 +92,27 @@ namespace Assets
 		private Vector3 GetRandomSpawnPosition()
 		{
 			return new Vector3(Random.Range(-spawnRadius, spawnRadius), Random.Range(-spawnRadius, spawnRadius));
+		}
+
+		public void OnPlayerKilled(int playerNumber)
+		{
+			if (playerNumber == 1)
+				player2Score++;
+			else
+				player1Score++;
+
+			UpdateScores();
+		}
+
+		private void UpdateScores()
+		{
+			blueRibbons[0].SetActive(player1Score > 0);
+			blueRibbons[1].SetActive(player1Score > 1);
+			blueRibbons[2].SetActive(player1Score > 2);
+
+			redRibbons[0].SetActive(player2Score > 0);
+			redRibbons[1].SetActive(player2Score > 1);
+			redRibbons[2].SetActive(player2Score > 2);
 		}
 	}
 }

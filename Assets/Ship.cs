@@ -94,6 +94,9 @@ namespace Assets
 
 			// Respawn the ship
 			Game.instance.SpawnPlayer(playerNumber);
+
+			// Let the game know a player was killed
+			Game.instance.OnPlayerKilled(playerNumber);
 		}
 	}
 }
