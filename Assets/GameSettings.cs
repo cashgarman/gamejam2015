@@ -57,6 +57,9 @@ public class GameSettings : MonoBehaviour
 	public float shipShockwaveDuration = 1f;
 	public float shipShockwaveSize = 5f;
 	public float respawnDelay = 2f;
+	public float minWormholeSpawnRadius = 20;
+	public float maxWormholeSpawnRadius = 100;
+	public int numWormholePairs = 3;
 
 	public void Awake()
 	{

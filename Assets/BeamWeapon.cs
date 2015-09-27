@@ -57,11 +57,11 @@ namespace Assets
 
 		public override void EndFire()
 		{
-			if (beam == null)
-				return;
-
 			firing = false;
 
+			if (beam == null)
+				return;
+			
 			// Destroy the beam
 			Destroy(beam.gameObject);
 		}

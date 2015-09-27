@@ -30,6 +30,7 @@ namespace Assets
 		public Slider player2HealthSlider;
 		public Slider player1EnergySlider;
 		public Slider player2EnergySlider;
+		private int currentWeapon;
 
 		public void Awake()
 		{
@@ -39,10 +40,15 @@ namespace Assets
 		public void Start()
 		{
 			// Spawn wormholes
-			for (var i = 0; i < numWormholePairs; ++i)
+			for (var i = 0; i < GameSettings.instance.numWormholePairs; ++i)
 			{
-				var sideAObject = Instantiate(GameSettings.instance.wormholePrefab, Random.insideUnitCircle * arenaSize, Quaternion.identity) as GameObject;
-				var sideBObject = Instantiate(GameSettings.instance.wormholePrefab, Random.insideUnitCircle * arenaSize, Quaternion.identity) as GameObject;
+				var sideAObject = Instantiate(GameSettings.instance.wormholePrefab,
+					GetRandomArenaPosition(GameSettings.instance.minWormholeSpawnRadius, GameSettings.instance.maxWormholeSpawnRadius),
+					Quaternion.identity) as GameObject;
+				var sideBObject = Instantiate(GameSettings.instance.wormholePrefab,
+					GetRandomArenaPosition(GameSettings.instance.minWormholeSpawnRadius, GameSettings.instance.maxWormholeSpawnRadius),
+					Quaternion.identity) as GameObject;
+
 				var sideA = sideAObject.GetComponent<Wormhole>();
 				var sideB = sideBObject.GetComponent<Wormhole>();
 
@@ -59,6 +65,12 @@ namespace Assets
 			SpawnPlayer(2);
 		}
 
+		private Vector3 GetRandomArenaPosition(float minRadius, float maxRadius)
+		{
+			var onUnitCircle = Random.insideUnitCircle.normalized;
+			return onUnitCircle * Random.Range(minRadius, maxRadius);
+		}
+
 		public void Update()
 		{
 			HandleInput();
@@ -66,16 +78,6 @@ namespace Assets
 
 		private void HandleInput()
 		{
-			if(Input.GetKeyDown("1") && !Input.GetKey(KeyCode.LeftShift))
-				OnPlayerWon(1);
-			if (Input.GetKeyDown("2") && !Input.GetKey(KeyCode.LeftShift))
-				OnPlayerWon(2);
-
-			if (Input.GetKeyDown("1") && Input.GetKey(KeyCode.LeftShift))
-				player1Ship.OnDestroyed();
-			if (Input.GetKeyDown("2") && Input.GetKey(KeyCode.LeftShift))
-				player2Ship.OnDestroyed();
-			
 			if(gameover && Input.GetKeyDown(KeyCode.Return))
 				Application.LoadLevel(0);
 
@@ -92,13 +94,28 @@ namespace Assets
 			if (Input.GetButtonUp("Player2Fire"))
 				player2Ship.EndFire();
 
+			// CHEATS
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
-				slowmo = !slowmo;
-				Time.timeScale = slowmo ? GameSettings.instance.slowmoSpeed : 1f;
+				// Cycle the player's weapons
+				++currentWeapon;
+				currentWeapon %= GameSettings.instance.weapons.Length;
+
+				Debug.Log("Switching weapons to " + GameSettings.instance.weapons[currentWeapon].name);
+				player1Ship.InstallWeapon(GameSettings.instance.weapons[currentWeapon]);
+				player2Ship.InstallWeapon(GameSettings.instance.weapons[currentWeapon]);
 			}
 
-			// CHEATS
+			if (Input.GetKeyDown("1") && !Input.GetKey(KeyCode.LeftShift))
+				OnPlayerWon(1);
+			if (Input.GetKeyDown("2") && !Input.GetKey(KeyCode.LeftShift))
+				OnPlayerWon(2);
+
+			if (Input.GetKeyDown("1") && Input.GetKey(KeyCode.LeftShift))
+				player1Ship.OnDestroyed();
+			if (Input.GetKeyDown("2") && Input.GetKey(KeyCode.LeftShift))
+				player2Ship.OnDestroyed();
+
 			if (Input.GetKeyDown(KeyCode.M))
 			{
 				Debug.Log("Giving both players missiles");
@@ -126,12 +143,16 @@ namespace Assets
 
 			if (playerNumber == 1)
 			{
-				player1Ship = (Instantiate(GameSettings.instance.player1ShipPrefab, GetRandomSpawnPosition(), Quaternion.identity) as GameObject).GetComponent<Ship>();
+				player1Ship = (Instantiate(GameSettings.instance.player1ShipPrefab,
+					GetRandomArenaPosition(GameSettings.instance.spawnRadius, GameSettings.instance.spawnRadius),
+					Quaternion.identity) as GameObject).GetComponent<Ship>();
 				player1Ship.InstallWeapon(GameSettings.instance.starterWeaponPrefab);
 			}
 			else
 			{
-				player2Ship = (Instantiate(GameSettings.instance.player2ShipPrefab, GetRandomSpawnPosition(), Quaternion.identity) as GameObject).GetComponent<Ship>();
+				player2Ship = (Instantiate(GameSettings.instance.player2ShipPrefab,
+					GetRandomArenaPosition(GameSettings.instance.spawnRadius, GameSettings.instance.spawnRadius),
+					Quaternion.identity) as GameObject).GetComponent<Ship>();
 				player2Ship.InstallWeapon(GameSettings.instance.starterWeaponPrefab);
 			}
 		}
