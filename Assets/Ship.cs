@@ -51,6 +51,9 @@ namespace Assets
 
 		public void StartFire()
 		{
+			if (controls.disabled)
+				return;
+
 			// Start firing the current weapon
 			weapon.StartFire();
 		}
@@ -92,8 +95,8 @@ namespace Assets
 			// Spawn an explosion
 			SpawnExplosion(GameSettings.instance.shipExplosionSize, GameSettings.instance.explosionDuration);
 
-			// Disable the player controls
-			controls.disabled = true;
+			// Disable the player
+			SetDisabled(true);
 
 			// Destroy the ship
 			Destroy(gameObject);
@@ -103,6 +106,13 @@ namespace Assets
 
 			// Let the game know a player was killed
 			Game.instance.OnPlayerKilled(playerNumber);
+		}
+
+		public void SetDisabled(bool disabled)
+		{
+			controls.disabled = disabled;
+			if(disabled)
+				weapon.EndFire();
 		}
 
 		public void InstallWeapon(GameObject weaponPrefab)
@@ -124,6 +134,20 @@ namespace Assets
 
 			DestroyImmediate(weapon.gameObject);
 			weapon = null;
+		}
+
+		public void SetVisible(bool visible)
+		{
+			Debug.Log("Setting visibility of " + name + " to " + visible);
+			SetDisabled(!visible);
+			gameObject.SetActive(visible);
+			rigidbody.isKinematic = !visible;
+		}
+
+		public void RandomizeWeapon()
+		{
+			// Install a random weapon on the ship
+			InstallWeapon(Util.RandomElement(GameSettings.instance.weapons));
 		}
 	}
 }

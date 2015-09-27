@@ -16,25 +16,6 @@ namespace Assets
 		public new ParticleSystem particleSystem;
 		public float particleSystemLife = 5f;
 
-//		asdf
-		/*
-		 *	TODO:
-			=====
-			- Wormholes randomize weapons
-			- Win condition
-			- Sound & music!
-			- More projectile (tracking and otherwise) weapon types
-		    - Restart screen
-			- Fix camera zooming to prevent players off screen vertically
-			- Beam weapons
-			- Smooth camera on player death or wormhole travel
-			- Boost downsides
-			- Delay on wormhole entering and exiting
-			- Shrink objects that wormholes & wormhole entrance effect
-			- Shockwaves on player destruction
-			- Highscore board? (damage taken / damage dealt ratio)
-		 * */
-
 		public new void Start()
 		{
 			base.Start();

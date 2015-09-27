@@ -49,7 +49,7 @@ namespace Assets
 
 		public virtual void OnHit(Collider2D collider)
 		{
-			Debug.Log(name + " hit by collider " + collider.name);
+//			Debug.Log(name + " hit by collider " + collider.name);
 
 			// If the collider is a projectile
 			var projectile = collider.GetComponent<Projectile>();
@@ -77,7 +77,7 @@ namespace Assets
 
 		private void TakeDamage(float damage)
 		{
-			Debug.Log("Received " + damage + " damage");
+//			Debug.Log("Received " + damage + " damage");
 			health -= damage;
 
 			// Check if we were destroyed
@@ -97,6 +97,16 @@ namespace Assets
 
 			// Destroy the explosion after the duration
 			Destroy(explosionObject, duration);
+		}
+
+		public void ApplyForce(Vector3 force)
+		{
+			rigidbody.AddForce(force);
+		}
+
+		public void KillSpeed()
+		{
+			rigidbody.velocity = Vector3.zero;
 		}
 	}
 }

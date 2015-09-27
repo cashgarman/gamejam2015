@@ -11,6 +11,10 @@ public class GameSettings : MonoBehaviour
 	public GameObject explosionPrefab;
 	public GameObject starterWeaponPrefab;
 	public GameObject missileWeaponPrefab;
+	public GameObject wormholeEnterEffectPrefab;
+	public GameObject wormholeExitEffectPrefab;
+
+	public GameObject[] weapons;
 
 	public float boostEngineParticleSize = 1.5f;
 	public float normalEngineParticleSize = 0.64f;
@@ -32,6 +36,10 @@ public class GameSettings : MonoBehaviour
 	public float explosionDuration = 1f;
 	public float slowmoSpeed = 0.1f;
 	public float shipExplosionSize = 10f;
+	public float wormholeEffectDurationPrefab = 3f;
+	public float wormholeMovementSpeed = 1f;
+	public float wormholeExitThreshold = 1f;
+	public float wormholeExitImpulse = 25f;
 
 	public void Awake()
 	{
