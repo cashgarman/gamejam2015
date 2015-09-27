@@ -110,7 +110,7 @@ namespace Assets
 			if(weapon != null)
 				UninstallWeapon();
 
-			Debug.Log("Installing weapon " + weapon.name);
+			Debug.Log("Installing weapon " + weaponPrefab.name);
 
 			var weaponObject = Instantiate(weaponPrefab);
 			weaponObject.transform.parent = transform;

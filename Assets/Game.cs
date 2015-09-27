@@ -81,6 +81,7 @@ namespace Assets
 			// CHEATS
 			if (Input.GetKeyDown(KeyCode.M))
 			{
+				Debug.Log("Giving both players missiles");
 				player1Ship.InstallWeapon(GameSettings.instance.missileWeaponPrefab);
 				player2Ship.InstallWeapon(GameSettings.instance.missileWeaponPrefab);
 			}

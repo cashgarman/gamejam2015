@@ -41,6 +41,7 @@ namespace Assets
 			var projectileObject = Instantiate(projectilePrefab, ship.muzzle.position, ship.muzzle.rotation) as GameObject;
 			var projectile = projectileObject.GetComponent<Projectile>();
 			projectile.owner = ship;
+			projectile.firingWeapon = this;
 
 			cooldown = reloadRate;
 		}

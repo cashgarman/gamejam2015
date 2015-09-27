@@ -4,8 +4,9 @@ namespace Assets
 {
 	public class Projectile : SpaceObject
 	{
-		public float acceleratingForce = 10f;
+		public float launchForce = 10f;
 		public Ship owner;
+		public ProjectileWeapon firingWeapon;
 		public bool doesDamage = true;
 		public bool friendlyFire = true;
 		public float damage = 10f;
@@ -19,10 +20,9 @@ namespace Assets
 		{
 			base.Start();
 
-			// Accelerate forward
-			var rigidbody = GetComponent<Rigidbody2D>();
+			// Launch forward
 			rigidbody.velocity = owner.GetComponent<Ship>().velocity;
-			rigidbody.AddForce(transform.up * acceleratingForce / Time.deltaTime);
+			rigidbody.AddForce(transform.up * launchForce / Time.deltaTime);
 		}
 
 		public new void Update()
@@ -48,9 +48,12 @@ namespace Assets
 
 		private void OnDestroy()
 		{
-			particleSystem.Stop();
-			particleSystem.transform.parent = null;
-			Destroy(particleSystem.gameObject, particleSystemLife);
+			if (particleSystem != null)
+			{
+				particleSystem.Stop();
+				particleSystem.transform.parent = null;
+				Destroy(particleSystem.gameObject, particleSystemLife);
+			}
 			Destroy(gameObject);
 		}
 
