@@ -1,9 +1,12 @@
 fileFormatVersion: 2
 guid: b4611473c22e99e42b6346b1041ce3d7
-timeCreated: 1443384215
+timeCreated: 1443390895
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Ship debris 1
+    21300002: Ship Debris 2
+    21300004: Ship Debris 3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,26 +33,56 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
-    wrapMode: -1
-  nPOTScale: 1
+    wrapMode: 1
+  nPOTScale: 0
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 0
-  textureType: -1
+  alphaIsTransparency: 1
+  textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Ship debris 1
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 202
+        width: 231
+        height: 210
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ship Debris 2
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 228
+        width: 216
+        height: 168
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ship Debris 3
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 52
+        width: 175
+        height: 144
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 
