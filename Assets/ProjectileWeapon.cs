@@ -12,6 +12,7 @@ namespace Assets
 		private float timeSinceLastFire;
 		protected float cooldown;
 		public string fireSoundName;
+		public float fireSoundVolume = 1f;
 		public float minSpin;
 		public float maxSpin;
 		public float colliderEnableDelay;
@@ -46,7 +47,7 @@ namespace Assets
 		protected void FireProjectile()
 		{
 			// Play the fire sound
-			Sounds.PlayOneShot(fireSoundName);
+			Sounds.PlayOneShot(fireSoundName, fireSoundVolume);
 
 			cooldown = reloadRate;
 

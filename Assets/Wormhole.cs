@@ -67,7 +67,7 @@ namespace Assets
 
 				// Throw the object out of the wormhole
 				spaceObject.ApplyForce((otherSide.transform.position - transform.position).normalized *
-								GameSettings.instance.wormholeExitImpulse / Time.deltaTime);
+								GameSettings.instance.wormholeExitImpulse / Time.deltaTime * spaceObject.rigidbody.mass);
 			}
 		}
 
