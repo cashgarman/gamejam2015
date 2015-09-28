@@ -12,6 +12,11 @@ namespace Assets
 		private float timeSinceLastFire;
 		protected float cooldown;
 		public string fireSoundName;
+		public float minSpin;
+		public float maxSpin;
+		public float colliderEnableDelay;
+		public float minSpreadForce;
+		public float maxSpreadForce;
 
 		public override void StartFire()
 		{
@@ -61,6 +66,22 @@ namespace Assets
 			var projectile = projectileObject.GetComponent<Projectile>();
 			projectile.owner = ship;
 			projectile.firingWeapon = this;
+
+			projectile.GetComponent<Rigidbody2D>().AddTorque(Random.Range(minSpin, maxSpin));
+			projectile.GetComponent<Rigidbody2D>().AddForce(Vector3.Cross(ship.transform.up, new Vector3(0, 0, 1)) *
+				Random.Range(minSpreadForce, maxSpreadForce) / Time.deltaTime);
+
+			if (colliderEnableDelay > 0)
+			{
+				projectile.GetComponent<Collider2D>().enabled = false;
+				StartCoroutine(DelayEnableCollision(projectile));
+			}
+		}
+
+		private IEnumerator DelayEnableCollision(Projectile projectile)
+		{
+			yield return new WaitForSeconds(colliderEnableDelay);
+			projectile.GetComponent<Collider2D>().enabled = true;
 		}
 
 		protected IEnumerator DelayFireProjectile()

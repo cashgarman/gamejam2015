@@ -12,6 +12,8 @@ namespace Assets
 			projectile.owner = ship;
 			projectile.firingWeapon = this;
 
+			projectile.GetComponent<Rigidbody2D>().angularVelocity = Random.Range(minSpin, maxSpin);
+
 			// Intially target the other player
 			projectile.target = Game.GetOtherShip(ship);
 
